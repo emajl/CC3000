@@ -277,7 +277,8 @@ int tm_net_tcp_close_socket (int ulSocket)
 }
 
 int tm_net_tcp_connect (int ulSocket, uint8_t ip0, uint8_t ip1, uint8_t ip2, uint8_t ip3, int port)
-{
+{ 
+  TM_DEBUG("I tm_net_tcp_connect\n");
   // the family is always AF_INET
   sockaddr remoteSocketAddr;
   remoteSocketAddr.sa_family = AF_INET;
@@ -289,6 +290,7 @@ int tm_net_tcp_connect (int ulSocket, uint8_t ip0, uint8_t ip1, uint8_t ip2, uin
   remoteSocketAddr.sa_data[5] = ip3;
 
   int lerr = connect(ulSocket, &remoteSocketAddr, sizeof(sockaddr));
+  TM_DEBUG("net_tcp_connect1 \n");
   if (lerr != ESUCCESS) {
     TM_DEBUG("Error Connecting\r\n");
   }
@@ -304,6 +306,7 @@ int tm_net_tcp_write (int ulSocket, const uint8_t *buf, unsigned long buf_len)
 
 int tm_net_tcp_read (int ulSocket, uint8_t *buf, int buf_len)
 {
+  TM_DEBUG("tm_net_tcp_read1 \n");
   return recv(ulSocket, buf, buf_len, 0);
 }
 

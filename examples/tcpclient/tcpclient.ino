@@ -14,8 +14,8 @@
  * this example auto streams from google
  */
 
-char ssid[] = "Kung";    //  your network SSID (name) 
-char pass[] = "0767127141";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "and";    //  your network SSID (name) 
+char pass[] = "hejsanhejsan";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;       // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
@@ -36,8 +36,8 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
   
-  Serial.println("Send anything.");
-  while (!Serial.available()) { continue; }
+  // Serial.println("Send anything.");
+  // while (!Serial.available()) { continue; }
   
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {

@@ -123,12 +123,9 @@ static void SimpleLink_Init_Start(unsigned short usPatchesAvailableAtHost)
 	args = (unsigned char *)(ptr + HEADERS_SIZE_CMD);
 	
 	UINT8_TO_STREAM(args, ((usPatchesAvailableAtHost) ? SL_PATCHES_REQUEST_FORCE_HOST : SL_PATCHES_REQUEST_DEFAULT));
-	
 	// IRQ Line asserted - send HCI_CMND_SIMPLE_LINK_START to CC3000
 	hci_command_send(HCI_CMND_SIMPLE_LINK_START, ptr, WLAN_SL_INIT_START_PARAMS_LEN);
-	
 	SimpleLinkWaitEvent(HCI_CMND_SIMPLE_LINK_START, 0);
-
 }
 
 
@@ -281,18 +278,14 @@ wlan_start(unsigned short usPatchesAvailableAtHost)
 	
 	// init spi
 	SpiOpen(SpiReceiveHandler);
-	Serial.println("1");
 	// Check the IRQ line
 	ulSpiIRQState = tSLInformation.ReadWlanInterruptPin();
-	Serial.println("2");
-	//Serial.print("IRQ state is: ");
-	//Serial.println(ulSpiIRQState);
+	Serial.print("IRQ state is: ");
+	Serial.println(ulSpiIRQState);
 	// ASIC 1273 chip enable: toggle WLAN EN line
 	tSLInformation.WriteWlanPin( WLAN_ENABLE );
-	Serial.println("3");
 	if (ulSpiIRQState)
 	{
-		Serial.println("4");
 		// wait till the IRQ line goes low
 		while(tSLInformation.ReadWlanInterruptPin() != 0)
 		{
@@ -300,22 +293,17 @@ wlan_start(unsigned short usPatchesAvailableAtHost)
 	}
 	else
 	{
-		Serial.println("5");
 		// wait till the IRQ line goes high and than low
 		while(tSLInformation.ReadWlanInterruptPin() == 0)
 		{
 		}
-		Serial.println("6");
 		while(tSLInformation.ReadWlanInterruptPin() != 0)
 		{
 		}
 	}
-	Serial.println("7");
 	SimpleLink_Init_Start(usPatchesAvailableAtHost);
-	
 	// Read Buffer's size and finish
 	hci_command_send(HCI_CMND_READ_BUFFER_SIZE, tSLInformation.pucTxCommandBuffer, 0);
-
 	SimpleLinkWaitEvent(HCI_CMND_READ_BUFFER_SIZE, 0);
 }
 

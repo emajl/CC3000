@@ -36,7 +36,8 @@
 #define eSPI_STATE_READ_EOT               (8)
 
 
-#define CC3000_nIRQ     (2)
+#define CC3000_nIRQ     (3) //Vilken pinne på arduino som är IRQ
+#define CC3000_IRQ      (1) //Vilken interrupt som är IRQ
 #define HOST_nCS        (10)
 #define HOST_VBAT_SW_EN (9)
 #define LED             (6)
@@ -171,7 +172,7 @@ void SpiInit(){
   ulSmartConfigFinished=0;
 
   pinMode(CC3000_nIRQ, INPUT);
-  attachInterrupt(0, SPI_IRQ, FALLING); //Attaches Pin 2 to interrupt 1
+  attachInterrupt(CC3000_IRQ, SPI_IRQ, FALLING);  //Attaches Pin 3 to interrupt 1
   
   pinMode(HOST_nCS, OUTPUT);
   pinMode(HOST_VBAT_SW_EN, OUTPUT);
@@ -304,19 +305,17 @@ long SpiWrite(unsigned char *pUserBuffer, unsigned short usLength)
     while (1)
       ;
   }
-
   // Serial.println("Checking for state");
   // print_spi_state();
   if (sSpiInformation.ulSpiState == eSPI_STATE_POWERUP)
   {
+
     while (sSpiInformation.ulSpiState != eSPI_STATE_INITIALIZED){
     }
       ;
   }
-  
   if (sSpiInformation.ulSpiState == eSPI_STATE_INITIALIZED)
   {
-    
     //
     // This is time for first TX/RX transactions over SPI: the IRQ is down - so need to send read buffer size command
     //
@@ -324,7 +323,6 @@ long SpiWrite(unsigned char *pUserBuffer, unsigned short usLength)
   }
   else 
   {
-    
     // We need to prevent here race that can occur in case 2 back to back 
     // packets are sent to the  device, so the state will move to IDLE and once 
     //again to not IDLE due to IRQ
@@ -346,7 +344,6 @@ long SpiWrite(unsigned char *pUserBuffer, unsigned short usLength)
     tSLInformation.WlanInterruptEnable();
 
   }
-
   // check for a missing interrupt between the CS assertion and enabling back the interrupts
   if (tSLInformation.ReadWlanInterruptPin() == 0)
   {
@@ -362,7 +359,6 @@ long SpiWrite(unsigned char *pUserBuffer, unsigned short usLength)
   // Due to the fact that we are currently implementing a blocking situation
   // here we will wait till end of transaction
   //
-
   while (eSPI_STATE_IDLE != sSpiInformation.ulSpiState)
     ;
   //Serial.println("done with spi write");
@@ -472,7 +468,7 @@ void SpiPauseSpi(void)
 
 void SpiResumeSpi(void)
 {
-  attachInterrupt(0, SPI_IRQ, FALLING); //Attaches Pin 2 to interrupt 1
+  attachInterrupt(CC3000_IRQ, SPI_IRQ, FALLING); //Attaches Pin 2 to interrupt 1
 }
 
 void SpiTriggerRxProcessing(void)
@@ -599,13 +595,14 @@ void StartSmartConfig(void)
 
 long ReadWlanInterruptPin(void)
 {
+  // Serial.println(CC3000_nIRQ);
   return(digitalRead(CC3000_nIRQ));
 }
 
 
 void WlanInterruptEnable()
 {
-  attachInterrupt(0, SPI_IRQ, FALLING); //Attaches Pin 2 to interrupt 1
+  attachInterrupt(CC3000_IRQ, SPI_IRQ, FALLING); //Attaches Pin 2 to interrupt 1
 }
 
 

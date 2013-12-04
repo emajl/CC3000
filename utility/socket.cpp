@@ -49,6 +49,21 @@
 #include "netapp.h"
 
 
+//ta bort
+#include <Arduino.h>
+
+#include "SPI.h"
+#include "tm_debug.h"
+#include "host_spi.h"
+#include "utility/wlan.h"
+#include "utility/nvmem.h"
+#include "utility/security.h"
+#include "utility/hci.h"
+#include "utility/os.h"
+#include "utility/netapp.h"
+#include "utility/evnt_handler.h"
+//ta bort
+
 
 //Enable this flag if and only if you must comply with BSD socket 
 //close() function
@@ -863,6 +878,7 @@ int
 simple_link_recv(long sd, void *buf, long len, long flags, sockaddr *from,
                 socklen_t *fromlen, long opcode)
 {
+	Serial.println("simple_link_recv1");
 	unsigned char *ptr, *args;
 	tBsdReadReturnParams tSocketReadEvent;
 	
@@ -876,18 +892,20 @@ simple_link_recv(long sd, void *buf, long len, long flags, sockaddr *from,
 	
 	// Generate the read command, and wait for the 
 	hci_command_send(opcode,  ptr, SOCKET_RECV_FROM_PARAMS_LEN);
-	
+	Serial.println("simple_link_recv2");
 	// Since we are in blocking state - wait for event complete
 	SimpleLinkWaitEvent(opcode, &tSocketReadEvent);
-	
+	Serial.println("simple_link_recv3");
 	// In case the number of bytes is more then zero - read data
 	if (tSocketReadEvent.iNumberOfBytes > 0)
 	{
+		Serial.println("simple_link_recv4");
 		// Wait for the data in a synchronous way. Here we assume that the bug is 
 		// big enough to store also parameters of receive from too....
 		SimpleLinkWaitData((unsigned char *)buf, (unsigned char *)from, (unsigned char *)fromlen);
+		Serial.println("simple_link_recv5");
 	}
-	
+	Serial.println("simple_link_recv6");
 	errno = tSocketReadEvent.iNumberOfBytes;
 	
 	return(tSocketReadEvent.iNumberOfBytes);

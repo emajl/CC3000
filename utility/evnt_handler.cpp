@@ -236,20 +236,17 @@ hci_event_handler(void *pRetParams, unsigned char *from, unsigned char *fromlen)
 	unsigned long retValue32;
   unsigned char * RecvParams;
   unsigned char *RetParams;
-	
 	// int STATE = 0;
 	while (1)
 	{
 
 		if (tSLInformation.usEventOrDataReceived != 0)
 		{	
-
 			pucReceivedData = (tSLInformation.pucReceivedData);
 			
 
 			if (*pucReceivedData == HCI_TYPE_EVNT)
-			{
-
+			{	
 				// if (DEBUG_MODE){
 				// 			digitalWrite(DEBUG_LED, HIGH);
 				// 		}
@@ -263,7 +260,6 @@ hci_event_handler(void *pRetParams, unsigned char *from, unsigned char *fromlen)
 				// In case unsolicited event received - here the handling finished
 				if (hci_unsol_event_handler((char *)pucReceivedData) == 0)
 				{
-
 					STREAM_TO_UINT8(pucReceivedData, HCI_DATA_LENGTH_OFFSET, usLength);
 					
 					switch(usReceivedEventOpcode)
@@ -470,9 +466,8 @@ hci_event_handler(void *pRetParams, unsigned char *from, unsigned char *fromlen)
 				
 				tSLInformation.usRxDataPending = 0;
 			}
-		
-			tSLInformation.usEventOrDataReceived = 0;
 			
+			tSLInformation.usEventOrDataReceived = 0;
 			SpiResumeSpi();
 			
 			// Since we are going to TX - we need to handle this event after the 
@@ -482,14 +477,12 @@ hci_event_handler(void *pRetParams, unsigned char *from, unsigned char *fromlen)
 			{
 				hci_unsol_handle_patch_request((char *)pucReceivedData);
 			}
-			
 			if ((tSLInformation.usRxEventOpcode == 0) && (tSLInformation.usRxDataPending == 0))
 			{
 				return NULL;
-			}	
+			}
 		}
 	}
-
 }
 
 //*****************************************************************************
@@ -825,10 +818,12 @@ update_socket_active_status(char *resp_params)
 void 
 SimpleLinkWaitEvent(unsigned short usOpcode, void *pRetParams)
 {
+	 // Serial.println("SimpleLinkWaitEvent1");
 	// In the blocking implementation the control to caller will be returned only 
 	// after the end of current transaction
 	tSLInformation.usRxEventOpcode = usOpcode;
 	hci_event_handler(pRetParams, 0, 0);
+	 // Serial.println("SimpleLinkWaitEvent2");
 }
 
 //*****************************************************************************

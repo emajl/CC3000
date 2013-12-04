@@ -6,6 +6,6 @@
     "platform": 1, 
     "platform_name": "Arduino AVR Boards", 
     "serial_port": 0, 
-    "show_compilation_output": false, 
+    "show_compilation_output": true, 
     "show_upload_output": false
 }
