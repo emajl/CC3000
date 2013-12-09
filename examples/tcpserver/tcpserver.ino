@@ -31,7 +31,7 @@ void setup() {
   
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
-    Serial.println("WiFi shield not present"); 
+    //serial.println("WiFi shield not present"); 
     // don't continue:
     while(true);
   } 
@@ -46,8 +46,8 @@ void setup() {
     /*
     // If you uncomment this block, be sure to comment out WiFi.begin() or else the cc3000
     // will attempt to connect more than once
-    Serial.print("Attempting to connect to SSID: ");
-    Serial.println(ssid);
+    //serial.print("Attempting to connect to SSID: ");
+    //serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:    
     WiFi.begin(ssid, pass);
     */
@@ -68,7 +68,7 @@ void loop() {
   // listen for incoming clients
   WiFiClient client = server.available();
   if (client) {
-    Serial.println("new client");
+    //serial.println("new client");
     // an http request ends with a blank line
     boolean currentLineIsBlank = true;
     while (client.connected()) {
@@ -114,24 +114,24 @@ void loop() {
     
     // close the connection:
     client.stop();
-    Serial.println("client disonnected");
+    //serial.println("client disonnected");
   }
 }
 
 
 void printWifiStatus() {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
+  //serial.print("SSID: ");
+  //serial.println(WiFi.SSID());
 
   // print your WiFi shield's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
+  //serial.print("IP Address: ");
+  //serial.println(ip);
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.print(rssi);
-  Serial.println(" dBm");
+  //serial.print("signal strength (RSSI):");
+  //serial.print(rssi);
+  //serial.println(" dBm");
 }

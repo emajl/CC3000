@@ -545,7 +545,7 @@ void StartSmartConfig(void)
     return;
   }
   if (DEBUG_MODE) {
-    Serial.println("smart config start");
+    // Serial.println("smart config start");
   }
 
   digitalWrite(ConnLED, HIGH);
@@ -560,7 +560,7 @@ void StartSmartConfig(void)
   }
   
   if (DEBUG_MODE) {
-    Serial.println("smart config finished");
+    // Serial.println("smart config finished");
   }
   digitalWrite(ConnLED, LOW);
 
@@ -737,7 +737,7 @@ void CC3000_UsynchCallback(long lEventType, char * data, unsigned char length)
     ulCC3000DHCP_configured = 0;
     printOnce = 1;
     
-    TM_DEBUG("disconnected\n");
+    TM_DEBUG("HIHIdisconnected\n");
 
     digitalWrite(ConnLED, LOW);
     // digitalWrite(ErrorLED, HIGH);

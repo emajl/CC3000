@@ -420,7 +420,8 @@ wlan_connect(unsigned long ulSecType, char *ssid, long ssid_len,
 	// Wait for command complete event
 	SimpleLinkWaitEvent(HCI_CMND_WLAN_CONNECT, &ret);
 	errno = ret;
-	
+	Serial.print("wlan_connect returnerar: ");
+	Serial.println(ret);
 	return(ret);
 }
 #else

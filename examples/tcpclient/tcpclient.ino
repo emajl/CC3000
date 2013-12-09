@@ -14,9 +14,9 @@
  * this example auto streams from google
  */
 
-char ssid[] = "and";    //  your network SSID (name) 
-char pass[] = "hejsanhejsan";    // your network password (use for WPA, or use as key for WEP)
-int keyIndex = 0;       // your network key Index number (needed only for WEP)
+char ssid[] = "Kung";   //  your network SSID (name) 
+char pass[] = "0767127141";    // your network password (use for WPA, or use as key for WEP)
+// int keyIndex = 0;       // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
 // if you don't want to use DNS (and reduce your sketch size)
@@ -36,12 +36,12 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
   
-  // Serial.println("Send anything.");
+  // //serial.println("Send anything.");
   // while (!Serial.available()) { continue; }
   
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
-    Serial.println("WiFi shield not present"); 
+    //serial.println("WiFi shield not present"); 
     // don't continue:
     while(true);
   } 
@@ -56,8 +56,8 @@ void setup() {
     
     // If you uncomment this block, be sure to comment out WiFi.begin() or else the cc3000
     // will attempt to connect more than once
-    Serial.print("Attempting to connect to SSID: ");
-    Serial.println(ssid);
+    //serial.print("Attempting to connect to SSID: ");
+    //serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:    
     WiFi.begin(ssid, pass);
     
@@ -68,13 +68,13 @@ void setup() {
     }
   } 
 
-  Serial.println("Connected to wifi");
+  //serial.println("Connected to wifi");
   printWifiStatus();
   
-  Serial.println("\nStarting connection to server...");
+  //serial.println("\nStarting connection to server...");
   // if you get a connection, report back via serial:
   if (client.connect(server, 80)) {
-    Serial.println("connected to server");
+    //serial.println("connected to server");
     // Make a HTTP request:
     client.println("GET /search?q=arduino HTTP/1.1");
     client.println("Host: www.google.com");
@@ -93,8 +93,8 @@ void loop() {
 
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
-    Serial.println();
-    Serial.println("disconnecting from server.");
+    //serial.println();
+    //serial.println("disconnecting from server.");
     client.stop();
 
     // do nothing forevermore:
@@ -105,17 +105,17 @@ void loop() {
 
 void printWifiStatus() {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
+  //serial.print("SSID: ");
+  //serial.println(WiFi.SSID());
 
   // print your WiFi shield's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
+  //serial.print("IP Address: ");
+  //serial.println(ip);
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.print(rssi);
-  Serial.println(" dBm");
+  //serial.print("signal strength (RSSI):");
+  //serial.print(rssi);
+  //serial.println(" dBm");
 }

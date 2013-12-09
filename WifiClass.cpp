@@ -56,9 +56,11 @@ int WiFiClass::begin(char* ssid, const char *passphrase)
   
   uint8_t status = WL_IDLE_STATUS;
   uint8_t attempts = WL_MAX_ATTEMPT_CONNECTION;
-
+TM_DEBUG("1");
   if (tm_net_connect_wpa2(ssid, passphrase) == 0) {
+    TM_DEBUG("2");
     tm_net_block_until_dhcp();
+    TM_DEBUG("3");
     status = WL_CONNECTED;
   } else {
     status = WL_CONNECT_FAILED;

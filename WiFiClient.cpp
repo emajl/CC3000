@@ -21,19 +21,20 @@ WiFiClient::WiFiClient(uint8_t sock) : _sock(sock) {
 
 int WiFiClient::connect (const char* host, uint16_t port)
 {
-  Serial.println("Hostname connecting.");
-	IPAddress remote_addr(198,41,30,241);
+  // Serial.println("Hostname connecting.");
+	IPAddress remote_addr(212,72,74,21 );
+  // IPAddress remote_addr(192,168,1,65);
 	// if (WiFi.hostByName(host, remote_addr))
 	// {
     // remote_addr = (198,41,30,241);
-    Serial.print("IP: ");
-    Serial.print(remote_addr[0]);
-    Serial.print(".");
-    Serial.print(remote_addr[1]);
-    Serial.print(".");
-    Serial.print(remote_addr[2]);
-    Serial.print(".");
-    Serial.println(remote_addr[3]);
+    // Serial.print("IP: ");
+    // Serial.print(remote_addr[0]);
+    // Serial.print(".");
+    // Serial.print(remote_addr[1]);
+    // Serial.print(".");
+    // Serial.print(remote_addr[2]);
+    // Serial.print(".");
+    // Serial.println(remote_addr[3]);
 
 		return connect(remote_addr, port);
 	// }
@@ -42,7 +43,7 @@ int WiFiClient::connect (const char* host, uint16_t port)
 
 int WiFiClient::connect (IPAddress ip, uint16_t port)
 {
-      Serial.println("36");
+      // Serial.println("36");
 
   _sock = tm_net_tcp_open_socket();
   if (_sock == NO_SOCKET_AVAIL) {
@@ -51,11 +52,11 @@ int WiFiClient::connect (IPAddress ip, uint16_t port)
   }
 
   if (tm_net_tcp_connect(_sock, ip[0], ip[1], ip[2], ip[3], port) != 0) {
-        Serial.println("45");
+        // Serial.println("45");
 
     return 0;
   }
-    Serial.println("49");
+    // Serial.println("49");
 
   return 1;
 }
@@ -91,27 +92,27 @@ int WiFiClient::available () {
 
 int WiFiClient::read ()
 {
-  Serial.println("read1");
+  // Serial.println("read1");
   uint8_t b;
   if (!available()) {
-    Serial.println("read2");
+    // Serial.println("read2");
     return -1;
   }
-  Serial.println("read3");
+  // Serial.println("read3");
   tm_net_tcp_read(_sock, &b, 1);
-  Serial.println("read4");
+  // Serial.println("read4");
   return b;
 }
 
 
 int WiFiClient::read (uint8_t* buf, size_t size)
 {
-  Serial.println("readParamatrar1");
+  // Serial.println("readParamatrar1");
   if (!tm_net_tcp_read(_sock, buf, size)) {
-    Serial.println("readParamatrar2");
+    // Serial.println("readParamatrar2");
     return -1;
   }
-  Serial.println("readParamatrar3");
+  // Serial.println("readParamatrar3");
   return 0;
 }
 
